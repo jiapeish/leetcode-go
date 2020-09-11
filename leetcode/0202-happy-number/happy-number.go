@@ -14,7 +14,6 @@ func isHappy(n int) bool {
 	}
 
 	return false
-
 }
 
 func compute(n int) int {
@@ -26,5 +25,4 @@ func compute(n int) int {
 	}
 
 	return res
-
 }
