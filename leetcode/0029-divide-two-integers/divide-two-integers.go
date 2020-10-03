@@ -11,7 +11,32 @@ func divide(dividend int, divisor int) int {
 		sign = 1
 	}
 
-	output = binarySearchQuotient(0, abs(dividend), abs(dividend), abs(divisor))
+	// begin non-recursively
+	low, high := 0, abs(dividend)
+	dividend, divisor = abs(dividend), abs(divisor)
+	for low <= high {
+		quotient := low + (high-low)/2
+		if quotient*divisor <= dividend && dividend <= (quotient+1)*divisor {
+			if dividend == (quotient+1)*divisor {
+				output = quotient + 1
+				break
+			}
+			output = quotient
+			break
+		}
+
+		if quotient*divisor > dividend {
+			high = quotient - 1
+		}
+
+		if (quotient+1)*divisor < dividend {
+			low = quotient + 1
+		}
+	}
+	// end non-recursively
+
+	// begin recursively
+	//output = binarySearchQuotient(0, abs(dividend), abs(dividend), abs(divisor))
 
 	if output > math.MaxInt32 {
 		return sign * math.MaxInt32
@@ -21,6 +46,13 @@ func divide(dividend int, divisor int) int {
 	}
 
 	return sign * output
+}
+
+func abs(a int) int {
+	if a >= 0 {
+		return a
+	}
+	return -a
 }
 
 func binarySearchQuotient(low, high, dividend, divisor int) int {
@@ -40,11 +72,4 @@ func binarySearchQuotient(low, high, dividend, divisor int) int {
 		return binarySearchQuotient(quotient+1, high, dividend, divisor)
 	}
 	return 0
-}
-
-func abs(a int) int {
-	if a >= 0 {
-		return a
-	}
-	return -a
 }
