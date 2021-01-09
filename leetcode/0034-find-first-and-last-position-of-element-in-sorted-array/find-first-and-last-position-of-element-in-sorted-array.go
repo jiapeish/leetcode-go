@@ -57,7 +57,7 @@ func searchFirstGreaterElement(nums []int, target int) int {
 	for low <= high {
 		mid := low + ((high - low) >> 1)
 		if nums[mid] < target {
-			low = high + 1
+			low = mid + 1
 		} else {
 			if mid == 0 || nums[mid-1] < target {
 				return mid
