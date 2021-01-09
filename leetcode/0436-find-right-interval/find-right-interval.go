@@ -1,6 +1,10 @@
 package main
 
-import "leetcode-go/structures"
+import (
+	"sort"
+
+	"leetcode-go/structures"
+)
 
 // solution 1
 type Interval = structures.Interval
@@ -30,7 +34,7 @@ func findRightInterval1(intervals [][]int) []int {
 func searchFirstGreaterInterval(nums []Interval, target int) int {
 	low, high := 0, len(nums)-1
 	for low <= high {
-		mid := low + ((high-low)>>1)
+		mid := low + ((high - low) >> 1)
 		if nums[mid].Start < target {
 			low = mid + 1
 		} else {
@@ -44,17 +48,53 @@ func searchFirstGreaterInterval(nums []Interval, target int) int {
 }
 
 // solution 2
+type interval struct {
+	interval []int
+	index    int
+}
 
+type intervalList []interval
 
+func (in intervalList) Len() int {
+	return len(in)
+}
 
+func (in intervalList) Less(i, j int) bool {
+	return (in[i].interval[0] < in[j].interval[0]) ||
+		(in[i].interval[0] == in[j].interval[0] && in[i].interval[1] < in[j].interval[1])
+}
 
+func (in intervalList) Swap(i, j int) {
+	in[i], in[j] = in[j], in[i]
+}
 
+func findRightInterval(intervals [][]int) []int {
+	n := len(intervals)
+	if n == 0 {
+		return []int{}
+	}
 
+	intervalList := make(intervalList, n)
+	for i, v := range intervals {
+		intervalList[i] = interval{
+			interval: v,
+			index:    i,
+		}
+	}
+	sort.Sort(intervalList)
 
+	res := make([]int, n)
+	for i := 0; i < n; i++ {
+		index := sort.Search(n, func(j int) bool {
+			return intervalList[j].interval[0] >= intervalList[i].interval[1]
+		})
 
+		if index == n {
+			res[intervalList[i].index] = -1
+		} else {
+			res[intervalList[i].index] = intervalList[index].index
+		}
+	}
 
-
-
-
-
-
+	return res
+}
