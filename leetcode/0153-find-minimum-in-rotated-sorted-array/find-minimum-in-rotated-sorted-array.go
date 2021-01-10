@@ -26,3 +26,20 @@ func findMin(nums []int) int {
 	}
 	return nums[low]
 }
+
+// 0528.
+//func (so *Solution528) PickIndex() int {
+//	n := rand.Intn(so.prefixSum[len(so.prefixSum)-1]) + 1
+//	low, high := 0, len(so.prefixSum)-1
+//	for low < high {
+//		mid := low + (high-low)>>1
+//		if so.prefixSum[mid] == n {
+//			return mid
+//		} else if so.prefixSum[mid] < n {
+//			low = mid + 1
+//		} else {
+//			high = mid
+//		}
+//	}
+//	return low
+//}
