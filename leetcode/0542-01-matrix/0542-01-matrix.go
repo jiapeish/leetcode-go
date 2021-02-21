@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 func updateMatrixDP(matrix [][]int) [][]int {
 	m, n := len(matrix), len(matrix[0])
@@ -54,9 +56,6 @@ func min(a, b int) int {
 
 // BFS
 func updateMatrixBFS(matrix [][]int) [][]int {
-	if len(matrix) == 0 || len(matrix[0]) == 0 {
-		return nil
-	}
 	m, n := len(matrix), len(matrix[0])
 	queue := make([][]int, 0)
 
@@ -93,13 +92,63 @@ func updateMatrixBFS(matrix [][]int) [][]int {
 	return matrix
 }
 
+// DFS
+func updateMatrixDFS(matrix [][]int) [][]int {
+	m, n := len(matrix), len(matrix[0])
 
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			// cell is 1, and has no 0 around itself
+			if matrix[i][j] == 1 && adjZero(matrix, i, j) == false {
+				matrix[i][j] = math.MaxInt32
+			}
 
+		}
+	}
 
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if matrix[i][j] == 1 {
+				dfsMatrix(matrix, i, j, -1)
+			}
+		}
+	}
 
+	return matrix
+}
 
+func adjZero(matrix [][]int, row, col int) bool {
+	if row > 0 && matrix[row-1][col] == 0 {
+		return true
+	}
 
+	if col > 0 && matrix[row][col-1] == 0 {
+		return true
+	}
 
+	if row+1 < len(matrix) && matrix[row+1][col] == 0 {
+		return true
+	}
 
+	if col+1 < len(matrix[0]) && matrix[row][col+1] == 0 {
+		return true
+	}
 
+	return false
+}
 
+func dfsMatrix(matrix [][]int, row, col, val int) {
+	if row < 0 || row >= len(matrix) || col < 0 || col >= len(matrix[0]) ||
+		matrix[row][col] <= val {
+		return
+	}
+
+	if val > 0 {
+		matrix[row][col] = val
+	}
+
+	dfsMatrix(matrix, row-1, col, matrix[row][col]+1)
+	dfsMatrix(matrix, row, col-1, matrix[row][col]+1)
+	dfsMatrix(matrix, row+1, col, matrix[row][col]+1)
+	dfsMatrix(matrix, row, col+1, matrix[row][col]+1)
+}
