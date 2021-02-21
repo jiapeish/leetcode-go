@@ -57,7 +57,7 @@ func min(a, b int) int {
 // BFS
 func updateMatrixBFS(matrix [][]int) [][]int {
 	m, n := len(matrix), len(matrix[0])
-	queue := make([][]int, 0)
+	queue := make([][]int, 0) // note its origin len is 0
 
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
@@ -99,10 +99,9 @@ func updateMatrixDFS(matrix [][]int) [][]int {
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			// cell is 1, and has no 0 around itself
-			if matrix[i][j] == 1 && adjZero(matrix, i, j) == false {
+			if matrix[i][j] == 1 && !adjZero(matrix, i, j) {
 				matrix[i][j] = math.MaxInt32
 			}
-
 		}
 	}
 
