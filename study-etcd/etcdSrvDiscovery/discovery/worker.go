@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/coreos/etcd/client"
+	"go.etcd.io/etcd/client"
 	"golang.org/x/net/context"
 )
 

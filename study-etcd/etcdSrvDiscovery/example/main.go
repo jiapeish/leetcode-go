@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/jiapeish/etcdSrvdiscovery/discovery"
+	"github.com/jiapeish/leetcode-go/study-etcd/etcdSrvdiscovery/discovery"
 )
 
 func main() {
